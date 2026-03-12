@@ -1,339 +1,225 @@
-🚀 AI-Powered Lead Generation & Outreach Automation Workflow
+# 🚀 AI-Powered Lead Generation & Outreach Automation Workflow
 
-An AI-powered lead generation and outreach automation system built using n8n, Apify, Google Sheets, and LLM APIs.
+An automated **lead generation and outreach system** built using **n8n, Apify, Google Sheets, and LLMs**.
 
-This workflow automatically collects company leads, enriches them with website data, generates business summaries using AI, and creates personalized HTML outreach emails.
+This workflow automatically:
+- Collects company leads
+- Extracts website information
+- Generates AI-powered business summaries
+- Creates personalized HTML outreach emails
 
-📌 Project Overview
+The goal of this project is to demonstrate how **AI + workflow automation** can streamline the entire **lead generation and sales outreach pipeline**.
 
-Lead generation and outreach are critical for businesses, but manually researching companies and writing personalized emails is time-consuming.
+---
 
-This project automates the entire process using workflow automation and AI.
+# 📌 Project Overview
 
-The system performs:
+Manual lead generation and outreach can be time-consuming and repetitive.  
+This project solves that problem by creating a **fully automated AI-powered workflow**.
 
-1️⃣ Automated lead scraping
-2️⃣ Lead enrichment
-3️⃣ Website content analysis
-4️⃣ AI business summarization
-5️⃣ Personalized outreach email generation
+The system performs the following tasks automatically:
 
-All results are stored automatically inside Google Sheets.
+✅ Collect company leads  
+✅ Extract or infer company domains  
+✅ Scrape website content  
+✅ Generate concise business summaries using AI  
+✅ Create personalized HTML outreach emails  
+✅ Store results in Google Sheets  
 
-🧠 Problem Statement
+This automation helps **sales teams, startups, and marketers scale their outreach efficiently**.
 
-The goal of this project is to design an AI-powered workflow that automates lead generation and outreach.
+---
 
-The workflow should:
+# 🛠️ Tech Stack
 
-Fetch company leads automatically
+The project integrates multiple tools and APIs to build a complete automation pipeline.
 
-Enrich the leads with available web data
+- ⚙️ **n8n** – Workflow automation platform  
+- 🌐 **Apify API** – Google Maps scraping for company leads  
+- 📊 **Google Sheets API** – Lead database and workflow trigger  
+- 🤖 **OpenRouter API** – AI model for summarization and email generation  
+- 🧠 **JavaScript Functions** – Data extraction and processing  
+- 📧 **HTML Email Templates** – Personalized outreach email formatting  
 
-Summarize the company website
+---
 
-Generate personalized outreach emails
+# 🔄 Workflow Architecture
 
-This entire process should run without manual intervention.
+The automation pipeline processes lead data step by step.
 
-🛠️ Technologies Used
-Technology	Purpose
-n8n	Workflow automation platform
-Apify API	Google Maps lead scraping
-Google Sheets API	Lead storage and updates
-OpenRouter API	LLM access
-Mistral-7B Model	AI summarization and email generation
-JavaScript (n8n Code Node)	Data processing and cleaning
-HTTP Requests	API integrations
-⚙️ Workflow Architecture
+---
 
-🔄 Complete Workflow Explanation
+# 1️⃣ Lead Data Ingestion & Workflow Trigger
 
-The workflow follows a multi-stage automation pipeline.
+The workflow starts with a **Google Sheets trigger**.
 
-1️⃣ Lead Data Ingestion
-Trigger
+Whenever a new lead is added to the sheet:
 
-The workflow starts when a new lead is added to Google Sheets.
+- The workflow automatically starts.
+- Lead information such as **company name, email, and website** is read.
 
-Node:
+Additionally, the workflow uses the **Apify Google Maps Scraper API** to fetch business leads automatically.
 
-New Lead Trigger (Google Sheet)
+These leads are then stored in **Google Sheets** for further processing.
 
-This allows the system to automatically process new leads in real time.
+🎯 **Purpose**
 
-2️⃣ Lead Fetching from Apify
+- Automate lead collection  
+- Maintain a centralized lead database  
 
-Node:
+---
 
-Fetching the Data (Apify - Google Maps Scraper)
+# 2️⃣ Extracting and Validating Domain Information
 
-This step uses the Apify API to fetch company leads including:
+Many leads do not contain a clean website domain.
 
-Company name
+The workflow applies a validation logic:
 
-Website
+1. If a domain already exists → use it  
+2. If missing → extract domain from email  
+3. If still missing → extract domain from website URL  
+4. If none found → skip the lead
 
-Address
+This ensures the workflow continues processing **even if lead data is incomplete**.
 
-Phone number
+---
 
-Location
+# 3️⃣ Website Scraping 🌐
 
-Business details
+For each valid domain:
 
-The data is returned in JSON format.
+- The workflow identifies the homepage
+- Sends a scraping request
+- Extracts HTML content from the website
 
-3️⃣ Lead Field Mapping
+The goal is to retrieve **text data that describes the company’s business**.
 
-Node:
+---
 
-Extract Sheet Fields (Mapping)
+# 4️⃣ Cleaning Website Content 🧹
 
-This node structures the lead data into a standard format:
+Raw website HTML contains unnecessary elements such as:
 
-Fields created:
+- scripts
+- styles
+- navigation menus
+- ads
 
-Company Name
+A **data cleaning function** removes these elements and extracts only **readable text content**.
 
-Email
+This ensures the AI model receives **clean and meaningful data**.
 
-Website
+---
 
-Domain
+# 5️⃣ AI Business Summary Generation 🤖
 
-City
+The cleaned website text is sent to an **LLM through OpenRouter API**.
 
-State
+The AI model analyzes the content and generates a **short 2–3 sentence business summary** explaining:
 
-Phone
+- what the company does
+- its products or services
+- its core business focus
 
-Address
+The generated summary is stored in **Google Sheets**.
 
-Summary
+This step transforms **raw website text into structured insights**.
 
-This ensures the rest of the workflow processes consistent data.
+---
 
-4️⃣ Domain Extraction Logic
+# 6️⃣ Personalized HTML Outreach Email Generation 📧
 
-Node:
+Using the business summary and lead information, the workflow constructs a prompt for the AI model.
 
-Function Node (Domain Extraction)
+The AI generates a **personalized HTML outreach email** that:
 
-If the domain is missing, the workflow attempts to extract it using:
+- references the company’s business
+- sounds natural and human-written
+- includes proper HTML formatting
+- contains headings, paragraphs, and a CTA button
 
-Priority order:
+The result is a **ready-to-send outreach email template**.
 
-1️⃣ Domain field
-2️⃣ Email address
-3️⃣ Website URL
+---
 
-Example:
+# 7️⃣ Saving Results to Google Sheets 📊
 
-contact@company.com → company.com
+The workflow stores all processed data in **Google Sheets**.
 
-If no domain or website is found:
+Saved outputs include:
 
-The lead is skipped and logged.
+- extracted domain  
+- AI-generated company summary  
+- personalized outreach email  
+- workflow processing status  
 
-5️⃣ Lead Validation
+This sheet functions as a **lightweight CRM dashboard** for managing leads.
 
-Node:
+---
 
-Check for Missing Domain / Email / Website
+# ⚠️ Error Handling
 
-This step checks whether the lead has enough information to continue.
+The workflow includes simple error handling.
 
-If missing:
+If a lead is missing required information:
 
-The lead is recorded in an Error Logs sheet.
+- the workflow skips the record
+- logs the issue
+- continues processing other leads
 
-6️⃣ Loop Through Leads
+This prevents the entire automation from failing due to incomplete data.
 
-Node:
+---
 
-Loop Over Items
+# 📦 Project Deliverables
 
-This allows the workflow to process multiple leads in batches.
+This repository contains:
 
-Batch size:
+- 📂 **Workflow JSON file** – Exported n8n automation workflow  
+- 🖼️ **Workflow Screenshot** – Visual architecture of the automation pipeline 
+- 📘 **README.md** – Detailed documentation of the project  
 
-5 leads per batch
+---
 
-This prevents API rate limits and improves performance.
+# ▶️ How to Use This Workflow
 
-7️⃣ Website Scraping
+1️⃣ Import the JSON workflow into **n8n**  
 
-Node:
+2️⃣ Configure required API credentials:
+- Apify API Key  
+- Google Sheets API  
+- OpenRouter API  
 
-Doing Scraping
+3️⃣ Set up the Google Sheet for lead storage  
 
-This step sends an HTTP request to the company website and retrieves the full HTML content of the homepage.
+4️⃣ Run the workflow
 
-8️⃣ HTML Cleaning & Text Extraction
+Once configured, the system will **automatically process leads and generate outreach emails**.
 
-Node:
+---
 
-Clean HTML & Extract Text
+# 🚀 Future Improvements
 
-This node performs advanced HTML processing:
+Possible extensions of this project include:
 
-Removes:
+- Automated email sending using SMTP
+- CRM integrations (HubSpot, Salesforce)
+- Multi-page website scraping
+- AI-based lead scoring
+- Analytics dashboard for outreach performance
 
-Scripts
+---
 
-Styles
+# ⭐ Support
 
-Images
+If you find this project useful, please consider **starring ⭐ the repository**.
 
-Metadata
+---
 
-SVG graphics
+# 🖥️ n8n Workflow Architecture
 
-Then extracts:
+Below is the visual representation of the **complete Lead Generation Outreach Workflow**.
 
-Main content
-
-Headers
-
-Navigation text
-
-Business descriptions
-
-Finally, it produces clean textual content about the company.
-
-9️⃣ AI Business Summary Generation
-
-Node:
-
-Summarize Business Info (OpenRouter)
-
-The cleaned website text is sent to an AI model:
-
-Model used:
-
-Mistral-7B Instruct
-
-The model generates a 2–3 sentence summary describing the company’s business.
-
-Example output:
-
-“XYZ Technologies is a digital solutions company specializing in AI-driven software development and enterprise automation solutions.”
-
-🔟 Summary Processing
-
-Node:
-
-Extract Summary Text
-
-This node cleans the AI output and extracts the final business summary.
-
-The summary is then stored back into the Google Sheets lead record.
-
-1️⃣1️⃣ AI Email Prompt Creation
-
-Node:
-
-Build HTML Email Prompt
-
-A prompt is created that includes:
-
-Company name
-
-City and state
-
-Website
-
-Business summary
-
-Example prompt:
-
-Generate a personalized HTML outreach email for this company...
-1️⃣2️⃣ AI Email Generation
-
-Node:
-
-Generate HTML Email (OpenRouter)
-
-The AI model generates a personalized outreach email in HTML format.
-
-Features:
-
-Professional tone
-
-Personalized business reference
-
-Call-to-action button
-
-Clean HTML formatting
-
-1️⃣3️⃣ Store Generated Email
-
-Node:
-
-Save HTML Email to Sheet
-
-The generated HTML email is saved in the Google Sheets “HTML Email” tab.
-
-This allows the email to be directly copied or used in outreach campaigns.
-
-📊 Final Output
-
-Each lead record now contains:
-
-Field	Description
-Company Name	Business name
-Website	Company website
-City / State	Location
-Business Summary	AI generated company summary
-HTML Email	Personalized outreach email
-🔐 Error Handling
-
-The workflow includes basic error handling:
-
-Missing domains
-
-Missing websites
-
-Failed scraping
-
-Empty AI responses
-
-Invalid leads are stored in an Error Logs sheet for review.
-
-💰 API Usage
-API	Purpose
-Apify	Lead scraping
-OpenRouter	LLM access
-Google Sheets	Data storage
-
-All APIs used have free tier support.
-
-📂 Project Files
-workflow/
-   lead_generation_outreach_workflow.json
-
-images/
-   workflow_screenshot.png
-
-docs/
-   problem_statement.pdf
-🚀 How to Run the Workflow
-
-1️⃣ Install n8n
-
-npm install n8n -g
-
-2️⃣ Import workflow JSON
-
-Import → lead_generation_outreach_workflow.json
-
-3️⃣ Add API credentials:
-
-Apify
-
-Google Sheets
-
-OpenRouter
-
-4️⃣ Start the workflow.
+<p align="center">
+  <img src="workflow_screenshot.png" width="1100"/>
+</p>
