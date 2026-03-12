@@ -1,0 +1,1002 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "content": "",
+        "height": 1120,
+        "width": 2820
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        384,
+        960
+      ],
+      "typeVersion": 1,
+      "id": "91be8bc2-b043-4302-aafd-0404fc28c1ce",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json['Website '] }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "User-Agent",
+              "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+            },
+            {
+              "name": "Accept",
+              "value": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          },
+          "response": {
+            "response": {
+              "responseFormat": "text"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1920,
+        1504
+      ],
+      "id": "4ffde1db-82ea-4e68-9c6c-4c916ca7274b",
+      "name": "Doing Scraping",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 337765892,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit#gid=337765892"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        528,
+        1424
+      ],
+      "id": "1634944c-54fa-4df6-83e2-c2b17d71874c",
+      "name": "New Lead Trigger (Google Sheet)",
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "qKd89RzhAtqOpwON",
+          "name": "Aditya Raj"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/datasets/ReyRhSpseMLbMVkfa/items?clean=true&format=json",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "{\n    \"includeWebResults\": false,\n    \"language\": \"en\",\n    \"locationQuery\": \"India, Ahmedabad\",\n    \"maxCrawledPlacesPerSearch\": 20,\n    \"maxImages\": 0,\n    \"maximumLeadsEnrichmentRecords\": 0,\n    \"scrapeContacts\": false,\n    \"scrapeDirectories\": false,\n    \"scrapeImageAuthors\": false,\n    \"scrapePlaceDetailPage\": false,\n    \"scrapeReviewsPersonalData\": true,\n    \"scrapeTableReservationProvider\": false,\n    \"searchStringsArray\": [\n        \"Company\"\n    ],\n    \"skipClosedPlaces\": false\n}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 5,
+              "batchInterval": 100
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        1424
+      ],
+      "id": "4bd4e3f8-fc73-4001-bb14-f05b17b0ca02",
+      "name": "Fetching the Data (Apify - Google Map Scapper)",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "PeRU4LPXWmTTDwPx",
+          "name": "Bearer Auth account 6"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c97ac63c-8e3b-4f5d-afcd-9a6a97a3121c",
+              "name": "Compnay Name",
+              "value": "={{$json[\"title\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "946db4d1-b447-4fad-b7a2-6b10c88e6f31",
+              "name": "Email ",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "a5a89372-ea2c-4b31-8ec5-4b49e067e8f0",
+              "name": "Website",
+              "value": "={{$json[\"website\"] || \"\"}}",
+              "type": "string"
+            },
+            {
+              "id": "4662c8d4-b8fe-4e46-890b-5e0921457f09",
+              "name": "Domain",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "2c5e83af-f771-4a5b-b454-fb59e678827e",
+              "name": "city",
+              "value": "={{ $json.city }}",
+              "type": "string"
+            },
+            {
+              "id": "263e92e8-54e7-4ea3-a174-b32f2908180f",
+              "name": "state",
+              "value": "={{ $json.state }}",
+              "type": "string"
+            },
+            {
+              "id": "e477b637-8f10-45bd-96f9-5adbd86752b2",
+              "name": "phone",
+              "value": "={{ $json.phone }}",
+              "type": "string"
+            },
+            {
+              "id": "cca9166d-fb93-4dc9-ac32-4449b24b19c1",
+              "name": "address",
+              "value": "={{ $json.address }}",
+              "type": "string"
+            },
+            {
+              "id": "ed2a6524-9170-4ac8-9a1b-3fa3ef47611a",
+              "name": "summary",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        1248
+      ],
+      "id": "17168d18-4e6c-4545-838b-bed4e97b6283",
+      "name": " Extract Sheet Fields (Mapping)"
+    },
+    {
+      "parameters": {
+        "jsCode": "function extractDomain(itemData) {\n  // Handle the typo in your data structure\n  const companyName = itemData['Compnay Name'] || itemData['Company Name'] || '';\n  const domainProvided = itemData['Domain']?.trim();\n  const email = itemData['Email ']?.trim(); // Note: space after 'Email '\n  const website = itemData['Website']?.trim();\n  \n  let extractedDomain = '';\n  \n  // Priority 1: Use existing domain\n  if (domainProvided) {\n    extractedDomain = domainProvided;\n  }\n  // Priority 2: Extract from email\n  else if (email && email.includes('@')) {\n    extractedDomain = email.split('@')[1];\n  }\n  // Priority 3: Extract from website URL\n  else if (website && website.startsWith('http')) {\n    try {\n      const url = new URL(website);\n      extractedDomain = url.hostname.replace(/^www\\./, '');\n    } catch (e) {\n      extractedDomain = '';\n    }\n  }\n  \n  // Check if ALL three fields are missing\n  const isMissingAll = !domainProvided && !email && !website;\n  \n  if (isMissingAll) {\n    return {\n      ...itemData,\n      'Company Name': companyName, // Fix the typo\n      'Domain': '',\n      'Status': 'error',\n      'Error Log': 'Missing domain/email/website',\n      'Processed Date': new Date().toISOString()\n    };\n  }\n  \n  return {\n    ...itemData,\n    'Company Name': companyName, // Fix the typo\n    'Domain': extractedDomain,\n    'Status': 'domain_extracted',\n    'Processed Date': new Date().toISOString()\n  };\n}\n\n// Apply to all items - accessing .json property correctly\nreturn items.map(item => ({ json: extractDomain(item.json) }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1168,
+        1440
+      ],
+      "id": "1d3df5cb-ab4a-4c16-b961-c16c39c3e2b7",
+      "name": "write a function for checking Missing Domain, Email etc.",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "53791d42-6f29-4bbe-8ef5-ddeb82d3e48c",
+              "leftValue": "={{ $json[\"Domain\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "276d2a91-5dbb-4b58-aac0-355e56566d85",
+              "leftValue": "={{ $json[\"Website\"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "5c7bc01c-8e55-4057-ae59-76d272f9924d",
+              "leftValue": "={{ $json[\"Email \"] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1360,
+        1280
+      ],
+      "id": "63e7c8e0-0bf5-41ea-88bd-abce1ace9227",
+      "name": "Check for Missing Domain, Email etc."
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1519252171,
+          "mode": "list",
+          "cachedResultName": "Error Logs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit#gid=1519252171"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company Name": "={{ $json['Compnay Name'] }}",
+            "Status": "={{ $json.Status }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Company Name",
+              "displayName": "Company Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1632,
+        1248
+      ],
+      "id": "10e1ff15-c6d1-4104-bf6c-93a83ba50580",
+      "name": "Append Lead w/o Domain",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "f5288ETPescnVIle",
+          "name": "Aditya Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 337765892,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit#gid=337765892"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company Name  ": "={{ $json['Compnay Name'] }}",
+            "Email  ": "={{ $json['Email '] }}",
+            "Website ": "={{ $json.Website }}",
+            "Domain": "={{ $json.Domain }}",
+            "City": "={{ $json.city }}",
+            "state": "={{ $json.state }}",
+            "phone": "={{ $json.phone }}",
+            "address": "={{ $json.address }}",
+            "summary": "={{ $json.summary }}"
+          },
+          "matchingColumns": [
+            "Company Name  "
+          ],
+          "schema": [
+            {
+              "id": "Company Name  ",
+              "displayName": "Company Name  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email  ",
+              "displayName": "Email  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Website ",
+              "displayName": "Website ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Domain",
+              "displayName": "Domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1424,
+        1504
+      ],
+      "id": "bc2b7771-4098-4d0f-9cd1-8e71e703ff78",
+      "name": "Update Sheet with Domain",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "f5288ETPescnVIle",
+          "name": "Aditya Google Sheets account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Enhanced HTML text extraction with title extraction\nconst item = $input.item.json;\n\ntry {\n  // Get the HTML content from HTTP Request\n  let htmlContent = item.data || '';\n  \n  if (!htmlContent) {\n    return {\n      json: {\n        ...item,\n        cleanedText: '',\n        error: 'No HTML content received'\n      }\n    };\n  }\n  \n  // STEP 1: Extract title from HTML\n  let pageTitle = '';\n  const titleMatch = htmlContent.match(/<title[^>]*>(.*?)<\\/title>/i);\n  if (titleMatch) {\n    pageTitle = titleMatch[1]\n      .replace(/&#8211;/g, '–')  // Replace HTML entity\n      .replace(/&amp;/g, '&')\n      .replace(/&lt;/g, '<')\n      .replace(/&gt;/g, '>')\n      .replace(/&quot;/g, '\"')\n      .replace(/&#39;/g, \"'\")\n      .trim();\n  }\n  \n  // STEP 2: Remove heavy content first to reduce size\n  let optimizedContent = htmlContent\n    .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '') // Remove all scripts\n    .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '')   // Remove all styles\n    .replace(/<svg[^>]*>[\\s\\S]*?<\\/svg>/gi, '')       // Remove SVG graphics\n    .replace(/<img[^>]*>/gi, '')                       // Remove images\n    .replace(/data:image\\/[^;]*;base64,[^\"']*/gi, '')  // Remove base64 images\n    .replace(/<!--[\\s\\S]*?-->/g, '')                   // Remove comments\n    .replace(/<link[^>]*>/gi, '')                      // Remove link tags\n    .replace(/<meta[^>]*>/gi, '');                     // Remove meta tags\n  \n  // STEP 3: Focus on content-rich sections\n  const contentPatterns = [\n    /<main[^>]*>([\\s\\S]*?)<\\/main>/gi,\n    /<article[^>]*>([\\s\\S]*?)<\\/article>/gi,\n    /<div[^>]*class[^>]*(?:content|main|about|hero|intro)[^>]*>([\\s\\S]*?)<\\/div>/gi,\n    /<section[^>]*>([\\s\\S]*?)<\\/section>/gi,\n    /<header[^>]*>([\\s\\S]*?)<\\/header>/gi,\n    /<body[^>]*>([\\s\\S]*?)<\\/body>/gi\n  ];\n  \n  let mainContent = '';\n  for (const pattern of contentPatterns) {\n    const matches = optimizedContent.match(pattern);\n    if (matches && matches.length > 0) {\n      mainContent = matches[0];\n      break;\n    }\n  }\n  \n  // If no main content found, use the entire optimized content but limit it\n  if (!mainContent) {\n    mainContent = optimizedContent.substring(0, 15000); // Limit to 15KB\n  }\n  \n  // STEP 4: Extract navigation and key content\n  const navMatches = mainContent.match(/<nav[^>]*>([\\s\\S]*?)<\\/nav>/gi);\n  const headerMatches = mainContent.match(/<header[^>]*>([\\s\\S]*?)<\\/header>/gi);\n  const h1Matches = mainContent.match(/<h1[^>]*>([\\s\\S]*?)<\\/h1>/gi);\n  const h2Matches = mainContent.match(/<h2[^>]*>([\\s\\S]*?)<\\/h2>/gi);\n  \n  let combinedContent = mainContent;\n  if (navMatches) combinedContent = navMatches.join(' ') + ' ' + combinedContent;\n  if (headerMatches) combinedContent = headerMatches.join(' ') + ' ' + combinedContent;\n  if (h1Matches) combinedContent = h1Matches.join(' ') + ' ' + combinedContent;\n  if (h2Matches) combinedContent = h2Matches.join(' ') + ' ' + combinedContent;\n  \n  // STEP 5: Extract text and clean it\n  let textContent = combinedContent\n    .replace(/<[^>]*>/g, ' ')                          // Remove HTML tags\n    .replace(/&nbsp;/g, ' ')                           // Replace &nbsp; with space\n    .replace(/&amp;/g, '&')                            // Replace &amp; with &\n    .replace(/&lt;/g, '<')                             // Replace &lt; with \n    .replace(/&gt;/g, '>')                             // Replace &gt; with >\n    .replace(/&quot;/g, '\"')                           // Replace &quot; with \"\n    .replace(/&#39;/g, \"'\")                            // Replace &#39; with '\n    .replace(/&#8211;/g, '–')                          // Replace &#8211; with –\n    .replace(/\\s+/g, ' ')                              // Replace multiple spaces with single space\n    .replace(/\\n+/g, ' ')                              // Replace newlines with spaces\n    .trim();\n  \n  // STEP 6: Extract meaningful content (first 1500 characters)\n  const businessText = textContent.substring(0, 500);\n  \n  // STEP 7: Try to extract specific business-related sentences\n  const sentences = businessText.split(/[.!?]+/).filter(s => s.trim().length > 15);\n  const relevantSentences = sentences.filter(sentence => {\n    const lowerSentence = sentence.toLowerCase();\n    return lowerSentence.includes('company') || \n           lowerSentence.includes('business') || \n           lowerSentence.includes('service') || \n           lowerSentence.includes('solution') || \n           lowerSentence.includes('product') || \n           lowerSentence.includes('we') || \n           lowerSentence.includes('our') ||\n           lowerSentence.includes('provide') ||\n           lowerSentence.includes('offer') ||\n           lowerSentence.includes('specialize') ||\n           lowerSentence.includes('help') ||\n           lowerSentence.includes('develop') ||\n           lowerSentence.includes('create') ||\n           lowerSentence.includes('technology') ||\n           lowerSentence.includes('software') ||\n           lowerSentence.includes('digital');\n  });\n  \n  // Use relevant sentences or fallback to first part of text\n  const finalText = relevantSentences.length > 0 \n    ? relevantSentences.slice(0, 8).join('. ') + '.'\n    : businessText;\n  \n  return {\n    json: {\n      // Keep essential fields\n    \n      \"Company Name\": pageTitle,\n      \"cleanedText\": finalText,\n      \"textLength\": finalText.length,\n      \"scrapingStatus\": \"success\"\n    }\n  };\n  \n} catch (error) {\n  return {\n    json: {\n      \n      \"Company Name\": '',\n      \"cleanedText\": '',\n      \"error\": `HTML parsing failed: ${error.message}`,\n      \"scrapingStatus\": \"failed\"\n    }\n  };\n}"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2224,
+        1504
+      ],
+      "id": "4c95a11f-a5eb-41c6-94fe-8408f305d617",
+      "name": "Clean HTML & Extract Text"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"model\": \"mistralai/mistral-7b-instruct\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a helpful assistant that summarizes company website text into a 2–3 sentence business summary.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": $json.cleanedText\n    }\n  ]\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2480,
+        1504
+      ],
+      "id": "4ca4e67e-d5e1-4cf9-8944-7fc355ca0c9a",
+      "name": "Summarize Business Info (OpenRouter)"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const rawOutput = $json.choices?.[0]?.message?.content || \"\";\n\nconst cleanedSummary = rawOutput\n  .replace(/Website Title:[^\\n]*\\n*/gi, \"\") // remove \"Website Title\"\n  .trim();\n\nreturn {\n  json: {\n    summary: cleanedSummary\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2720,
+        1792
+      ],
+      "id": "b8bf1b95-3abb-4906-80dd-1f7ab24afae6",
+      "name": " Extract Summary Text"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 337765892,
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit#gid=337765892"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company Name  ": "={{ $(' Extract Sheet Fields (Mapping)').item.json['Compnay Name'] }}",
+            "summary": "={{ $json.summary }}"
+          },
+          "matchingColumns": [
+            "Company Name  "
+          ],
+          "schema": [
+            {
+              "id": "Company Name  ",
+              "displayName": "Company Name  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email  ",
+              "displayName": "Email  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Website ",
+              "displayName": "Website ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Domain",
+              "displayName": "Domain",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "phone",
+              "displayName": "phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "address",
+              "displayName": "address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "summary",
+              "displayName": "summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        3024,
+        1792
+      ],
+      "id": "b38d7ae6-94d2-414f-a268-7706e01dc7cb",
+      "name": "Update Summary to Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "f5288ETPescnVIle",
+          "name": "Aditya Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const company = item.json[\"Compnay Name\"] || \"a great company\";\nconst city = item.json[\"city\"] || \"your city\";\nconst state = item.json[\"state\"] || \"your state\";\nconst website = item.json[\"Website\"] || \"company website\";\nconst summary = item.json[\"summary\"] || \"An innovative company doing impactful work.\";\n\nconst prompt = `\nGenerate a professional and personalized HTML outreach email for a company named \"${company}\", located in ${city}, ${state}, with website ${website}.\n\nBusiness Summary:\n${summary}\n\nRequirements:\n- Address the company in a friendly and professional tone.\n- Mention their offerings.\n- Suggest collaboration.\n- Include a call-to-action button (e.g., Schedule a meeting).\n- Format the email in clean HTML (use <h2>, <p>, <a>, etc).\n- Use emojis minimally.\n`;\n\nreturn {\n  json: {\n    prompt\n  }\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1248,
+        1744
+      ],
+      "id": "93e871c3-7356-4617-a8ef-52933a39c925",
+      "name": " Build HTML Email Prompt"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"model\": \"mistralai/mistral-7b-instruct\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"You are a professional email copywriter who creates high-converting HTML email templates.\" \n    },\n    {\n      \"role\": \"user\",\n      \"content\": $json.prompt\n    }\n  ]\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1440,
+        1744
+      ],
+      "id": "878a0d5d-eed4-4e19-be36-5e58a5fb9725",
+      "name": "Generate HTML Email (OpenRouter)"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k",
+          "mode": "list",
+          "cachedResultName": "AI Lead Generation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 811983819,
+          "mode": "list",
+          "cachedResultName": "HTML Email",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/15G59p3a2cYnH2z51NheItTXGOHH95MkuSOEJs2Jg20k/edit#gid=811983819"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Company Name  ": "={{ $('Update Summary to Sheet').item.json['Company Name  '] }}",
+            "HTML Email": "={{ $json.choices[0].message.content }}"
+          },
+          "matchingColumns": [
+            "Company Name  "
+          ],
+          "schema": [
+            {
+              "id": "Company Name  ",
+              "displayName": "Company Name  ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "HTML Email",
+              "displayName": "HTML Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1712,
+        1744
+      ],
+      "id": "ff6dc591-857a-415f-a7cc-7bd3cc1418ed",
+      "name": "Save HTML Email to Sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "f5288ETPescnVIle",
+          "name": "Aditya Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1664,
+        1504
+      ],
+      "id": "663a673e-c89c-4cfa-99f9-54e8c86122c8",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1952,
+        1328
+      ],
+      "id": "a3b9df46-5ea5-4be0-a770-7ef65acc3f94",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "connections": {
+    "Doing Scraping": {
+      "main": [
+        [
+          {
+            "node": "Clean HTML & Extract Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "New Lead Trigger (Google Sheet)": {
+      "main": [
+        [
+          {
+            "node": "Fetching the Data (Apify - Google Map Scapper)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetching the Data (Apify - Google Map Scapper)": {
+      "main": [
+        [
+          {
+            "node": " Extract Sheet Fields (Mapping)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Extract Sheet Fields (Mapping)": {
+      "main": [
+        [
+          {
+            "node": "write a function for checking Missing Domain, Email etc.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write a function for checking Missing Domain, Email etc.": {
+      "main": [
+        [
+          {
+            "node": "Check for Missing Domain, Email etc.",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check for Missing Domain, Email etc.": {
+      "main": [
+        [
+          {
+            "node": "Append Lead w/o Domain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Sheet with Domain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Sheet with Domain": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clean HTML & Extract Text": {
+      "main": [
+        [
+          {
+            "node": "Summarize Business Info (OpenRouter)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize Business Info (OpenRouter)": {
+      "main": [
+        [
+          {
+            "node": " Extract Summary Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Extract Summary Text": {
+      "main": [
+        [
+          {
+            "node": "Update Summary to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Summary to Sheet": {
+      "main": [
+        [
+          {
+            "node": " Build HTML Email Prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    " Build HTML Email Prompt": {
+      "main": [
+        [
+          {
+            "node": "Generate HTML Email (OpenRouter)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate HTML Email (OpenRouter)": {
+      "main": [
+        [
+          {
+            "node": "Save HTML Email to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save HTML Email to Sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Doing Scraping",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0733b4a2c7a08cce2804f68ca3c4b2bc153992435b5148cee8ee78de739cce3d"
+  }
+}
