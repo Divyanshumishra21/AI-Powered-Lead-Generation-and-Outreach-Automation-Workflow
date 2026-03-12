@@ -12,7 +12,7 @@ The goal of this project is to demonstrate how **AI + workflow automation** can 
 
 ---
 
-# 📌 Project Overview
+## 📌 Project Overview
 
 Manual lead generation and outreach can be time-consuming and repetitive.  
 This project solves that problem by creating a **fully automated AI-powered workflow**.
@@ -30,7 +30,7 @@ This automation helps **sales teams, startups, and marketers scale their outreac
 
 ---
 
-# 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 The project integrates multiple tools and APIs to build a complete automation pipeline.
 
@@ -43,13 +43,13 @@ The project integrates multiple tools and APIs to build a complete automation pi
 
 ---
 
-# 🔄 Workflow Architecture
+## 🔄 Workflow Architecture
 
 The automation pipeline processes lead data step by step.
 
 ---
 
-# 1️⃣ Lead Data Ingestion & Workflow Trigger
+### 1️⃣ Lead Data Ingestion & Workflow Trigger
 
 The workflow starts with a **Google Sheets trigger**.
 
@@ -69,7 +69,7 @@ These leads are then stored in **Google Sheets** for further processing.
 
 ---
 
-# 2️⃣ Extracting and Validating Domain Information
+### 2️⃣ Extracting and Validating Domain Information
 
 Many leads do not contain a clean website domain.
 
@@ -84,7 +84,7 @@ This ensures the workflow continues processing **even if lead data is incomplete
 
 ---
 
-# 3️⃣ Website Scraping 🌐
+### 3️⃣ Website Scraping 🌐
 
 For each valid domain:
 
@@ -96,7 +96,7 @@ The goal is to retrieve **text data that describes the company’s business**.
 
 ---
 
-# 4️⃣ Cleaning Website Content 🧹
+### 4️⃣ Cleaning Website Content 🧹
 
 Raw website HTML contains unnecessary elements such as:
 
@@ -111,7 +111,7 @@ This ensures the AI model receives **clean and meaningful data**.
 
 ---
 
-# 5️⃣ AI Business Summary Generation 🤖
+### 5️⃣ AI Business Summary Generation 🤖
 
 The cleaned website text is sent to an **LLM through OpenRouter API**.
 
@@ -127,7 +127,7 @@ This step transforms **raw website text into structured insights**.
 
 ---
 
-# 6️⃣ Personalized HTML Outreach Email Generation 📧
+### 6️⃣ Personalized HTML Outreach Email Generation 📧
 
 Using the business summary and lead information, the workflow constructs a prompt for the AI model.
 
@@ -142,7 +142,7 @@ The result is a **ready-to-send outreach email template**.
 
 ---
 
-# 7️⃣ Saving Results to Google Sheets 📊
+### 7️⃣ Saving Results to Google Sheets 📊
 
 The workflow stores all processed data in **Google Sheets**.
 
@@ -157,7 +157,7 @@ This sheet functions as a **lightweight CRM dashboard** for managing leads.
 
 ---
 
-# ⚠️ Error Handling
+## ⚠️ Error Handling
 
 The workflow includes simple error handling.
 
@@ -171,7 +171,7 @@ This prevents the entire automation from failing due to incomplete data.
 
 ---
 
-# 📦 Project Deliverables
+## 📦 Project Deliverables
 
 This repository contains:
 
@@ -181,7 +181,7 @@ This repository contains:
 
 ---
 
-# ▶️ How to Use This Workflow
+## ▶️ How to Use This Workflow
 
 1️⃣ Import the JSON workflow into **n8n**  
 
@@ -198,7 +198,7 @@ Once configured, the system will **automatically process leads and generate outr
 
 ---
 
-# 🚀 Future Improvements
+## 🚀 Future Improvements
 
 Possible extensions of this project include:
 
@@ -210,16 +210,16 @@ Possible extensions of this project include:
 
 ---
 
-# ⭐ Support
+## ⭐ Support
 
 If you find this project useful, please consider **starring ⭐ the repository**.
 
 ---
 
-# 🖥️ n8n Workflow Architecture
+## 🖥️ n8n Workflow Architecture
 
 Below is the visual representation of the **complete Lead Generation Outreach Workflow**.
 
 <p align="center">
-  <img src="workflow_screenshot.png" width="1100"/>
+  <img src="workflow_screenshot.png" width="1200"/>
 </p>
