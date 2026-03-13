@@ -115,6 +115,8 @@ This ensures the AI model receives **clean and meaningful data**.
 
 The cleaned website text is sent to an **LLM through OpenRouter API**.
 
+In this workflow, the **Mistral-7B Instruct model** is used to generate concise business summaries from the scraped website text.
+
 The AI model analyzes the content and generates a **short 2–3 sentence business summary** explaining:
 
 - what the company does
